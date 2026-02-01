@@ -14,8 +14,11 @@ class _CounterAppState extends State<CounterApp> {
     return Scaffold(
       backgroundColor: Colors.teal,
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        title: Text("Counter", style: TextStyle(fontWeight: FontWeight.w700, fontSize: 25)),
+        backgroundColor: Colors.white70,
+        title: Text(
+          "Counter",
+          style: TextStyle(fontWeight: FontWeight.w700, fontSize: 25, color: Colors.teal),
+        ),
         centerTitle: true,
       ),
       body: Padding(
@@ -27,11 +30,11 @@ class _CounterAppState extends State<CounterApp> {
             children: [
               Container(
                 width: 80,
-                height: 50,
+                height: 55,
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: Colors.teal.shade50,
                   borderRadius: BorderRadius.circular(8),
-                  boxShadow: [BoxShadow(color: Colors.black26, blurRadius: 5, offset: Offset(2, 2))],
+                  // boxShadow: [BoxShadow(color: Colors.black26, blurRadius: 5, offset: Offset(2, 2))],
                 ),
                 alignment: Alignment.center,
                 child: Text(
@@ -55,13 +58,13 @@ class _CounterAppState extends State<CounterApp> {
                     title: "Press to Decrease",
                     icon: Icons.remove,
                     onPressed: () {
-                      if (counter <= 0) {
-                        counter = 1;
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Decresing Limit is 0")));
+                      if (counter > 0) {
+                        setState(() {
+                          counter--;
+                        });
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Decreasing Limit is 0")));
                       }
-                      setState(() {
-                        counter--;
-                      });
                     },
                   ),
                 ],
