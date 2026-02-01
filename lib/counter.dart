@@ -7,128 +7,109 @@ class CounterApp extends StatefulWidget {
   State<CounterApp> createState() => _CounterAppState();
 }
 
-int counter = 0;
-bool isDark = false;
-
 class _CounterAppState extends State<CounterApp> {
+  int counter = 0;
   @override
   Widget build(BuildContext context) {
-    // bool isDark = false;
     return Scaffold(
-      backgroundColor: (isDark) ? Colors.white : Colors.black,
+      backgroundColor: Colors.teal,
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        backgroundColor: Colors.white,
         title: Text("Counter", style: TextStyle(fontWeight: FontWeight.w700, fontSize: 25)),
         centerTitle: true,
-
-        leading: InkWell(
-          child: Icon((isDark) ? Icons.light : Icons.add),
-          onTap: () {
-            setState(() {
-              isDark = !isDark;
-            });
-          },
-        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Center(
           child: Column(
-            spacing: 15,
+            spacing: 20,
             mainAxisAlignment: .center,
             children: [
-              Text(
-                '$counter',
-                style: TextStyle(color: Colors.white, fontSize: 30, fontWeight: FontWeight.w800),
-              ),
-
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  spacing: 10,
-                  children: [
-                    ElevatedButton(
-                      onPressed: () {
-                        setState(() {
-                          counter++;
-                        });
-                      },
-                      style: ElevatedButton.styleFrom(
-                        //side: BorderSide(),
-                        backgroundColor: Colors.red,
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          children: [
-                            Icon(Icons.add, size: 30, color: Colors.black),
-                            Text(
-                              "Press to increase",
-                              style: TextStyle(color: Colors.black, fontWeight: FontWeight.w700, fontSize: 15),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-
-                    ElevatedButton(
-                      onPressed: () {
-                        if (counter <= 0) {
-                          counter = 1;
-                        }
-                        setState(() {
-                          counter--;
-                        });
-                      },
-                      style: ElevatedButton.styleFrom(
-                        //side: BorderSide(),
-                        backgroundColor: Colors.red,
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          children: [
-                            Icon(Icons.remove, size: 28, color: Colors.black),
-                            Text(
-                              "Press to Decrease",
-                              style: TextStyle(color: Colors.black, fontWeight: FontWeight.w700, fontSize: 15),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
+              Container(
+                width: 80,
+                height: 50,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(8),
+                  boxShadow: [BoxShadow(color: Colors.black26, blurRadius: 5, offset: Offset(2, 2))],
+                ),
+                alignment: Alignment.center,
+                child: Text(
+                  '$counter',
+                  style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.teal.shade800),
                 ),
               ),
-              ElevatedButton(
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  ButtonWidget(
+                    title: "Press to increase",
+                    icon: Icons.add,
+                    onPressed: () {
+                      setState(() {
+                        counter++;
+                      });
+                    },
+                  ),
+                  ButtonWidget(
+                    title: "Press to Decrease",
+                    icon: Icons.remove,
+                    onPressed: () {
+                      if (counter <= 0) {
+                        counter = 1;
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Decresing Limit is 0")));
+                      }
+                      setState(() {
+                        counter--;
+                      });
+                    },
+                  ),
+                ],
+              ),
+              ButtonWidget(
+                title: "Press to reset",
+                icon: Icons.refresh,
+                size: Size(double.infinity, 25),
                 onPressed: () {
                   setState(() {
                     counter = 0;
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Counter is reset")));
                   });
                 },
-                style: ElevatedButton.styleFrom(
-                  minimumSize: Size(double.infinity, 25),
-                  //side: BorderSide(),
-                  backgroundColor: Colors.red,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    children: [
-                      Icon(Icons.refresh, size: 28, color: Colors.black),
-                      Text(
-                        "Press to Decrease",
-                        style: TextStyle(color: Colors.black, fontWeight: FontWeight.w700, fontSize: 15),
-                      ),
-                    ],
-                  ),
-                ),
               ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class ButtonWidget extends StatelessWidget {
+  const ButtonWidget({super.key, required this.title, required this.icon, required this.onPressed, this.size});
+  final VoidCallback onPressed;
+  final IconData icon;
+  final String title;
+  final Size? size;
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      onPressed: onPressed,
+      style: ElevatedButton.styleFrom(
+        minimumSize: size,
+        backgroundColor: Colors.teal.shade50,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            Icon(icon, size: 30, color: Colors.teal.shade800),
+            Text(
+              title,
+              style: TextStyle(color: Colors.teal.shade800, fontWeight: FontWeight.w700, fontSize: 15),
+            ),
+          ],
         ),
       ),
     );
