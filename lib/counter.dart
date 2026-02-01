@@ -31,11 +31,7 @@ class _CounterAppState extends State<CounterApp> {
               Container(
                 width: 80,
                 height: 55,
-                decoration: BoxDecoration(
-                  color: Colors.teal.shade50,
-                  borderRadius: BorderRadius.circular(8),
-                  // boxShadow: [BoxShadow(color: Colors.black26, blurRadius: 5, offset: Offset(2, 2))],
-                ),
+                decoration: BoxDecoration(color: Colors.teal.shade50, borderRadius: BorderRadius.circular(8)),
                 alignment: Alignment.center,
                 child: Text(
                   '$counter',
