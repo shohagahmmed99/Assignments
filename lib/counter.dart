@@ -10,8 +10,10 @@ class CounterApp extends StatefulWidget {
 class _CounterAppState extends State<CounterApp> {
   int counter = 0;
   String onPressed = "white";
+
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.sizeOf(context).width;
     return Scaffold(
       backgroundColor: Colors.purple.shade50,
       appBar: AppBar(
@@ -68,7 +70,7 @@ class _CounterAppState extends State<CounterApp> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   ButtonWidget(
-                    //  size: Size(300, 25),
+                    size: Size(screenWidth * 0.4, 25),
                     //title: "Increase",
                     text: Text(
                       "Increase",
@@ -84,9 +86,9 @@ class _CounterAppState extends State<CounterApp> {
                       });
                     },
                   ),
-                  SizedBox(height: 20),
+                  SizedBox(height: screenWidth * 0.2),
                   ButtonWidget(
-                    // size: Size(300, 25),
+                    size: Size(screenWidth * 0.4, 25),
                     // title: " Decrease",
                     text: Text(
                       "Decrease",
