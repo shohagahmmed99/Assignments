@@ -68,7 +68,7 @@ class _CounterAppState extends State<CounterApp> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   ButtonWidget(
-                    size: Size(300, 25),
+                    //  size: Size(300, 25),
                     //title: "Increase",
                     text: Text(
                       "Increase",
@@ -86,7 +86,7 @@ class _CounterAppState extends State<CounterApp> {
                   ),
                   SizedBox(height: 20),
                   ButtonWidget(
-                    size: Size(300, 25),
+                    // size: Size(300, 25),
                     // title: " Decrease",
                     text: Text(
                       "Decrease",
@@ -164,13 +164,7 @@ class ButtonWidget extends StatelessWidget {
       ),
       child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            icon,
-           
-            text,
-          ],
-        ),
+        child: Column(children: [icon, text]),
       ),
     );
   }
