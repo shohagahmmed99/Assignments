@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:tasbih/theme.dart';
 
 class Tasbih extends StatefulWidget {
   const Tasbih({super.key});
@@ -35,20 +36,53 @@ class _TasbihState extends State<Tasbih> {
 
   bool isOn = false;
   int counter = 0;
-  String theme = "assets/images/image 1.png";
-  List<Color> colour = [Color(0xFF2D1D3F), Color(0xFF764CA5), Color(0xff111B2B)];
+  final theme = [
+    AppThemeModel(
+        image: "assets/images/image 1.png",
+        colour: [Color(0xFF2D1D3F), Color(0xFF764CA5), Color(0xff111B2B)],
+        buttonIndicatorcolor: Color(0xff764CA5),
+        bottomNavColor: Color(0xff764CA5)),
+    AppThemeModel(
+        image: "assets/images/theme1.png",
+        colour: [
+          Color(0xFF3E2723),
+          Color(0xFFA1887F),
+          Color(0xFF6D4C41),
+        ],
+        buttonIndicatorcolor: Color(0xFF000000),
+        bottomNavColor: Color(0xFF6D4C41)),
+    AppThemeModel(
+        image: "assets/images/theme2.png",
+        colour: [
+          Color(0xFF183282),
+          Color.fromARGB(255, 51, 28, 101),
+          Color(0xFF3E3AA8),
+        ],
+        buttonIndicatorcolor: Color(0xFF183282),
+        bottomNavColor: Color.fromARGB(255, 53, 69, 117))
+  ];
+  AppThemeModel? selectedTheme;
 
-  Color tIconColor = Color(0xff764CA5);
+  @override
+  void initState() {
+    super.initState();
+    selectedTheme = theme[0];
+  }
+
   @override
   Widget build(BuildContext context) {
+    final height = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
           elevation: 2,
           titleSpacing: 0,
           backgroundColor: Colors.white,
-          shadowColor: Colors.black,
+          shadowColor: Colors.grey.shade100,
           leading: BackButton(),
-          title: Text("Tasbih Counter"),
+          title: Text(
+            "Tasbih Counter",
+            style: TextStyle(fontFamily: "playfair", fontWeight: FontWeight.w500),
+          ),
           actions: [
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -63,71 +97,8 @@ class _TasbihState extends State<Tasbih> {
               ),
             )
           ]),
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Container(
-          height: 61,
-          decoration: BoxDecoration(
-              color: Color(0xffb2764ca5),
-              borderRadius: BorderRadius.only(bottomLeft: Radius.circular(15), bottomRight: Radius.circular(15))),
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  children: [
-                    Icon(
-                      Icons.home_outlined,
-                      color: Colors.white,
-                    ),
-                    Text(
-                      "Home",
-                      style: TextStyle(color: Colors.white),
-                    )
-                  ],
-                ),
-                Column(
-                  children: [
-                    Icon(
-                      Icons.calendar_month_outlined,
-                      color: Colors.white,
-                    ),
-                    Text(
-                      "Calender",
-                      style: TextStyle(color: Colors.white),
-                    )
-                  ],
-                ),
-                Column(
-                  children: [
-                    Icon(
-                      Icons.schedule_outlined,
-                      color: Colors.white,
-                    ),
-                    Text(
-                      "Schedule",
-                      style: TextStyle(color: Colors.white),
-                    )
-                  ],
-                ),
-                Column(
-                  children: [
-                    Icon(
-                      Icons.settings_outlined,
-                      color: Colors.white,
-                    ),
-                    Text(
-                      "Settings",
-                      style: TextStyle(color: Colors.white),
-                    )
-                  ],
-                )
-              ],
-            ),
-          ),
-        ),
-      ),
+      bottomNavigationBar:
+          Padding(padding: const EdgeInsets.all(8.0), child: CustomBottomNavBar(color: selectedTheme!.bottomNavColor)),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Column(
@@ -136,10 +107,10 @@ class _TasbihState extends State<Tasbih> {
           children: [
             Container(
                 width: double.infinity,
-                height: 450,
+                height: height * 0.5,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
-                    image: DecorationImage(image: AssetImage(theme), fit: BoxFit.fill)),
+                    image: DecorationImage(image: AssetImage(selectedTheme?.image ?? ""), fit: BoxFit.fill)),
                 child: Column(
                   spacing: 25,
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -147,7 +118,8 @@ class _TasbihState extends State<Tasbih> {
                   children: [
                     Text(
                       "الله أكبر",
-                      style: TextStyle(fontWeight: FontWeight.w900, color: Colors.white, fontSize: 20),
+                      style: TextStyle(
+                          fontWeight: FontWeight.w900, color: Colors.white, fontSize: 20, fontFamily: "playfair"),
                     ),
                     Container(
                       decoration: BoxDecoration(borderRadius: BorderRadius.circular(6), color: Colors.purple.shade50),
@@ -156,17 +128,23 @@ class _TasbihState extends State<Tasbih> {
                         child: Text(
                           timeToDisplay,
                           textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 16, color: tIconColor),
+                          style: TextStyle(
+                              fontFamily: "DmSans",
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500,
+                              color: selectedTheme!.buttonIndicatorcolor),
                         ),
                       ),
                     ),
                     Text(
                       "Tasbih Counter",
-                      style: TextStyle(fontWeight: FontWeight.w900, fontSize: 22, color: Colors.white),
+                      style: TextStyle(
+                          fontWeight: FontWeight.w900, fontSize: 22, color: Colors.white, fontFamily: "playfair"),
                     ),
                     Text(
                       counter.toString().padLeft(3, "0"),
-                      style: TextStyle(fontWeight: FontWeight.w900, color: Colors.white, fontSize: 24),
+                      style: TextStyle(
+                          fontWeight: FontWeight.w900, color: Colors.white, fontSize: 24, fontFamily: "playfair"),
                     ),
                     GestureDetector(
                       onTap: () {
@@ -178,8 +156,11 @@ class _TasbihState extends State<Tasbih> {
                       },
                       child: CustomSwitch(
                         isOn: isOn,
-                        gcolour: colour,
+                        gcolour: selectedTheme!.colour,
                       ),
+                    ),
+                    SizedBox(
+                      height: 5,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -203,7 +184,7 @@ class _TasbihState extends State<Tasbih> {
                               child: Icon(
                                 Icons.refresh,
                                 size: 35,
-                                color: tIconColor,
+                                color: selectedTheme!.buttonIndicatorcolor,
                               ),
                             ),
                           ),
@@ -215,10 +196,13 @@ class _TasbihState extends State<Tasbih> {
                               isOn = false;
                             });
                           },
-                          child: CustomButton(
+                          child: ActionButton(
                               child: Text(
                             "stop",
-                            style: TextStyle(fontSize: 20, color: tIconColor),
+                            style: TextStyle(
+                              fontSize: 20,
+                              color: selectedTheme!.buttonIndicatorcolor,
+                            ),
                           )),
                         ),
                         GestureDetector(
@@ -228,11 +212,11 @@ class _TasbihState extends State<Tasbih> {
                               isOn = true;
                             });
                           },
-                          child: CustomButton(
+                          child: ActionButton(
                               child: Icon(
                             Icons.pause,
-                            size: 35,
-                            color: tIconColor,
+                            size: 30,
+                            color: selectedTheme!.buttonIndicatorcolor,
                           )),
                         )
                       ],
@@ -243,8 +227,8 @@ class _TasbihState extends State<Tasbih> {
               height: 15,
             ),
             Text(
-              "Add Themes",
-              style: TextStyle(fontWeight: FontWeight.w700, fontSize: 18),
+              "Add Theme",
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, fontFamily: "playfair"),
             ),
             SizedBox(
               height: 15,
@@ -255,29 +239,17 @@ class _TasbihState extends State<Tasbih> {
                 InkWell(
                     onTap: () {
                       setState(() {
-                        theme = "assets/images/theme1.png";
-                        colour = [
-                          Color(0xFF000000),
-                          Color(0xFF1C1C1C),
-                          Color(0xFF3A3A3A),
-                        ];
-                        tIconColor = Color(0xFF000000);
+                        selectedTheme = theme[1];
                       });
                     },
-                    child: Theme(image: "assets/images/theme1.png")),
+                    child: PageTheme(image: "assets/images/theme1.png")),
                 InkWell(
                   onTap: () {
                     setState(() {
-                      theme = "assets/images/theme2.png";
-                      colour = [
-                        Color(0xFF0A101A),
-                        Color(0xFF111B2B),
-                        Color(0xFF2E3F5F),
-                      ];
-                      tIconColor = Color(0xFF183282);
+                      selectedTheme = theme[2];
                     });
                   },
-                  child: Theme(
+                  child: PageTheme(
                     image: "assets/images/theme2.png",
                   ),
                 )
@@ -290,8 +262,8 @@ class _TasbihState extends State<Tasbih> {
   }
 }
 
-class CustomButton extends StatelessWidget {
-  const CustomButton({super.key, required this.child});
+class ActionButton extends StatelessWidget {
+  const ActionButton({super.key, required this.child});
   final Widget child;
   @override
   Widget build(BuildContext context) {
@@ -303,19 +275,10 @@ class CustomButton extends StatelessWidget {
   }
 }
 
-class CustomSwitch extends StatefulWidget {
+class CustomSwitch extends StatelessWidget {
   const CustomSwitch({super.key, required this.isOn, required this.gcolour});
   final bool isOn;
-  // final  color1;
-  // final Color color2;
   final List<Color> gcolour;
-  //final Color color3;
-
-  @override
-  State<CustomSwitch> createState() => _CustomSwitchState();
-}
-
-class _CustomSwitchState extends State<CustomSwitch> {
   @override
   Widget build(BuildContext context) {
     return Stack(alignment: Alignment.center, children: [
@@ -326,10 +289,7 @@ class _CustomSwitchState extends State<CustomSwitch> {
         padding: const EdgeInsets.all(5),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(30),
-          gradient: LinearGradient(colors: widget.gcolour
-              //colors:
-              // [Color(0xFF2D1D3F), Color(0xFF764CA5), Color(0xff111B2B)],
-              ),
+          gradient: LinearGradient(colors: gcolour),
           boxShadow: [
             BoxShadow(
               color: Colors.black26,
@@ -341,7 +301,7 @@ class _CustomSwitchState extends State<CustomSwitch> {
         child: AnimatedAlign(
           duration: const Duration(milliseconds: 300),
           curve: Curves.easeInOut,
-          alignment: widget.isOn ? Alignment.centerRight : Alignment.centerLeft,
+          alignment: isOn ? Alignment.centerRight : Alignment.centerLeft,
           child: Container(
             width: 40,
             height: 40,
@@ -356,8 +316,8 @@ class _CustomSwitchState extends State<CustomSwitch> {
   }
 }
 
-class Theme extends StatelessWidget {
-  const Theme({super.key, required this.image});
+class PageTheme extends StatelessWidget {
+  const PageTheme({super.key, required this.image});
   final String image;
   @override
   Widget build(BuildContext context) {
@@ -371,6 +331,77 @@ class Theme extends StatelessWidget {
                 image,
               ),
               fit: BoxFit.cover)),
+    );
+  }
+}
+
+class CustomBottomNavBar extends StatelessWidget {
+  const CustomBottomNavBar({super.key, required this.color});
+  final Color? color;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 61,
+      decoration: BoxDecoration(
+          color: color,
+          borderRadius: BorderRadius.only(bottomLeft: Radius.circular(15), bottomRight: Radius.circular(15))),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Column(
+              children: [
+                Icon(
+                  Icons.home_outlined,
+                  color: Colors.white,
+                ),
+                Text(
+                  "Home",
+                  style: TextStyle(color: Colors.white, fontFamily: "playfair"),
+                )
+              ],
+            ),
+            Column(
+              children: [
+                Icon(
+                  Icons.calendar_month_outlined,
+                  color: Colors.white,
+                ),
+                Text(
+                  "Calender",
+                  style: TextStyle(color: Colors.white, fontFamily: "playfair"),
+                )
+              ],
+            ),
+            Column(
+              children: [
+                Icon(
+                  Icons.schedule_outlined,
+                  color: Colors.white,
+                ),
+                Text(
+                  "Schedule",
+                  style: TextStyle(color: Colors.white, fontFamily: "playfair"),
+                )
+              ],
+            ),
+            Column(
+              children: [
+                Icon(
+                  Icons.settings_outlined,
+                  color: Colors.white,
+                ),
+                Text(
+                  "Settings",
+                  style: TextStyle(color: Colors.white, fontFamily: "playfair"),
+                )
+              ],
+            )
+          ],
+        ),
+      ),
     );
   }
 }
