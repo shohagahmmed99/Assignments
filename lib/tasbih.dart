@@ -40,8 +40,8 @@ class _TasbihState extends State<Tasbih> {
         ],
         offcolour: [
           Color(0xFFB39DDB),
-          Color(0xFFD1C4E9),
           Color(0xFFEDE7F6),
+          Color(0xFFD1C4E9),
         ],
         buttonIndicatorcolor: Color(0xff764CA5),
         bottomNavColor: Color(0xff764CA5).withOpacity(0.7),
@@ -55,8 +55,8 @@ class _TasbihState extends State<Tasbih> {
         ],
         offcolour: [
           Color(0xFF8D6E63),
-          Color(0xFFD7CCC8),
           Color(0xFFBCAAA4),
+          Color(0xFFD7CCC8),
         ],
         buttonIndicatorcolor: Color(0xFF000000),
         bottomNavColor: Color(0xFF6D4C41),
@@ -70,8 +70,8 @@ class _TasbihState extends State<Tasbih> {
         ],
         offcolour: [
           Color(0xFF5C6BC0),
-          Color(0xFF9FA8DA),
           Color(0xFFC5CAE9),
+          Color(0xFF9FA8DA),
         ],
         buttonIndicatorcolor: Color(0xFF183282),
         bottomNavColor: Color(0xff183282).withOpacity(0.7),
@@ -229,11 +229,13 @@ class _TasbihState extends State<Tasbih> {
                             });
                           },
                           child: ActionButton(
-                              child: Icon(
-                            Icons.pause,
-                            size: 30,
-                            color: selectedTheme.buttonIndicatorcolor,
-                          )),
+                              child: (isOn)
+                                  ? Icon(
+                                      Icons.pause,
+                                      size: 30,
+                                      color: selectedTheme.buttonIndicatorcolor,
+                                    )
+                                  : Icon(Icons.play_arrow)),
                         )
                       ],
                     )
