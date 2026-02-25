@@ -114,166 +114,191 @@ class _TasbihState extends State<Tasbih> {
           ]),
       bottomNavigationBar:
           Padding(padding: const EdgeInsets.all(8.0), child: CustomBottomNavBar(color: selectedTheme.bottomNavColor)),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-                width: double.infinity,
-                height: height * 0.5,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    image: DecorationImage(image: AssetImage(selectedTheme.image), fit: BoxFit.fill)),
-                child: Column(
-                  spacing: 25,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      "الله أكبر",
-                      style: TextStyle(
-                          fontWeight: FontWeight.w900, color: Colors.white, fontSize: 20, fontFamily: "playfair"),
-                    ),
-                    Container(
-                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(6), color: Colors.purple.shade50),
-                      child: Padding(
-                        padding: const EdgeInsets.all(3),
-                        child: Text(
-                          timeToDisplay,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontFamily: "DmSans",
-                              fontSize: 18,
-                              fontWeight: FontWeight.w500,
-                              color: selectedTheme.buttonIndicatorcolor),
+
+      // body.................
+
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                  width: double.infinity,
+                  height: height * 0.5,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      image: DecorationImage(image: AssetImage(selectedTheme.image), fit: BoxFit.fill)),
+                  child: Column(
+                    spacing: 25,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        "الله أكبر",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w900, color: Colors.white, fontSize: 20, fontFamily: "playfair"),
+                      ),
+                      Container(
+                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(6), color: Colors.purple.shade50),
+                        child: Padding(
+                          padding: const EdgeInsets.all(3),
+                          child: Text(
+                            timeToDisplay,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontFamily: "DmSans",
+                                fontSize: 18,
+                                fontWeight: FontWeight.w500,
+                                color: selectedTheme.buttonIndicatorcolor),
+                          ),
                         ),
                       ),
-                    ),
-                    Text(
-                      "Tasbih Counter",
-                      style: TextStyle(
-                          fontWeight: FontWeight.w900, fontSize: 22, color: Colors.white, fontFamily: "playfair"),
-                    ),
-                    Text(
-                      counter.toString().padLeft(3, "0"),
-                      style: TextStyle(
-                          fontWeight: FontWeight.w900, color: Colors.white, fontSize: 24, fontFamily: "playfair"),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        if (isOn) {
-                          setState(() {
-                            counter = counter + 1;
-                          });
-                        }
-                      },
-                      child: CustomSwitch(
-                        isOn: isOn,
-                        gcolour: (isOn == true) ? selectedTheme.oncolour : selectedTheme.offcolour,
-                        switchThumbColor: (isOn == true) ? Colors.grey : selectedTheme.thumbColor,
+                      Text(
+                        "Tasbih Counter",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w900, fontSize: 22, color: Colors.white, fontFamily: "playfair"),
                       ),
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      spacing: 35,
-                      children: [
-                        Container(
-                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: Colors.white),
-                          child: Padding(
-                            padding: const EdgeInsets.fromLTRB(8, 2, 8, 2),
-                            child: GestureDetector(
-                              onTap: () {
-                                if (isOn == false) {
-                                  sWatch.reset();
-                                  setState(() {
-                                    timeToDisplay = "0:00:00";
-                                    counter = 0;
-                                  });
-                                }
-                              },
-                              child: Icon(
-                                Icons.refresh,
-                                size: 35,
-                                color: selectedTheme.buttonIndicatorcolor,
+                      Text(
+                        counter.toString().padLeft(3, "0"),
+                        style: TextStyle(
+                            fontWeight: FontWeight.w900, color: Colors.white, fontSize: 24, fontFamily: "playfair"),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          if (isOn) {
+                            setState(() {
+                              counter = counter + 1;
+                            });
+                          }
+                        },
+                        child: CustomSwitch(
+                          isOn: isOn,
+                          gcolour: (isOn == true) ? selectedTheme.oncolour : selectedTheme.offcolour,
+                          switchThumbColor: (isOn == true) ? Colors.grey : selectedTheme.thumbColor,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        spacing: 35,
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: Colors.white),
+                            child: Padding(
+                              padding: const EdgeInsets.fromLTRB(8, 2, 8, 2),
+                              child: GestureDetector(
+                                onTap: () {
+                                  if (isOn == false) {
+                                    sWatch.reset();
+                                    setState(() {
+                                      timeToDisplay = "0:00:00";
+                                      counter = 0;
+                                    });
+                                  }
+                                },
+                                child: Icon(
+                                  Icons.refresh,
+                                  size: 35,
+                                  color: selectedTheme.buttonIndicatorcolor,
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            sWatch.stop();
-                            setState(() {
-                              isOn = false;
-                            });
-                          },
-                          child: ActionButton(
-                              child: Text(
-                            "stop",
-                            style: TextStyle(
-                              fontSize: 20,
-                              color: selectedTheme.buttonIndicatorcolor,
-                            ),
-                          )),
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            startStopWatch();
-                            setState(() {
-                              isOn = true;
-                            });
-                          },
-                          child: ActionButton(
-                              child: (isOn)
-                                  ? Icon(
-                                      Icons.pause,
-                                      size: 30,
-                                      color: selectedTheme.buttonIndicatorcolor,
-                                    )
-                                  : Icon(Icons.play_arrow)),
-                        )
-                      ],
-                    )
-                  ],
-                )),
-            SizedBox(
-              height: 15,
-            ),
-            Text(
-              "Add Theme",
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, fontFamily: "playfair"),
-            ),
-            SizedBox(
-              height: 15,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                InkWell(
+                          GestureDetector(
+                            onTap: () {
+                              sWatch.stop();
+                              setState(() {
+                                isOn = false;
+                              });
+                            },
+                            child: ActionButton(
+                                child: Text(
+                              "stop",
+                              style: TextStyle(
+                                fontSize: 20,
+                                color: selectedTheme.buttonIndicatorcolor,
+                              ),
+                            )),
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              startStopWatch();
+                              setState(() {
+                                isOn = true;
+                              });
+                            },
+                            child: ActionButton(
+                                child: (isOn)
+                                    ? Icon(
+                                        Icons.pause,
+                                        size: 30,
+                                        color: selectedTheme.buttonIndicatorcolor,
+                                      )
+                                    : Icon(Icons.play_arrow)),
+                          )
+                        ],
+                      )
+                    ],
+                  )),
+              SizedBox(
+                height: 15,
+              ),
+              Text(
+                "Add Theme",
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, fontFamily: "playfair"),
+              ),
+              SizedBox(
+                height: 15,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  InkWell(
+                      onTap: () {
+                        if (selectedTheme == theme[1]) {
+                          setState(() {
+                            selectedTheme = theme[0];
+                          });
+                        } else {
+                          setState(() {
+                            selectedTheme = theme[1];
+                          });
+                        }
+                      },
+                      child: (selectedTheme == theme[1])
+                          ? PageTheme(image: "assets/images/image 1.png")
+                          : PageTheme(image: "assets/images/theme1.png")),
+                  InkWell(
                     onTap: () {
-                      setState(() {
-                        selectedTheme = theme[1];
-                      });
+                      if (selectedTheme == theme[2]) {
+                        setState(() {
+                          selectedTheme = theme[0];
+                        });
+                      } else {
+                        setState(() {
+                          selectedTheme = theme[2];
+                        });
+                      }
                     },
-                    child: PageTheme(image: "assets/images/theme1.png")),
-                InkWell(
-                  onTap: () {
-                    setState(() {
-                      selectedTheme = theme[2];
-                    });
-                  },
-                  child: PageTheme(
-                    image: "assets/images/theme2.png",
-                  ),
-                )
-              ],
-            )
-          ],
+                    child: (selectedTheme == theme[2])
+                        ? PageTheme(image: "assets/images/image 1.png")
+                        : PageTheme(
+                            image: "assets/images/theme2.png",
+                          ),
+                  )
+                ],
+              )
+/* bhaiya, i can do it more dynamic, but in assignment has a sequance like, seleted theme purple color,
+and in the portion of optional theme on left side have dark brown theme and lite blue on the right side that's why i made purple theme
+always moveable. The reason why i do it, that it would  be easy for you only focus on the assigned  task.
+*/
+            ],
+          ),
         ),
       ),
     );
