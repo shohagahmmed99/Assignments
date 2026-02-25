@@ -1,11 +1,9 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:tasbih/theme.dart';
 
 class Tasbih extends StatefulWidget {
   const Tasbih({super.key});
-
   @override
   State<Tasbih> createState() => _TasbihState();
 }
@@ -13,9 +11,13 @@ class Tasbih extends StatefulWidget {
 class _TasbihState extends State<Tasbih> {
   String timeToDisplay = "0:00:00";
   final dur = const Duration(seconds: 1);
+  var sWatch = Stopwatch();
+  bool isOn = false;
+  int counter = 0;
+
   void keepRunning() {
     if (sWatch.isRunning) {
-      startTimer();
+      Timer(dur, keepRunning);
     }
     setState(() {
       timeToDisplay =
@@ -23,45 +25,59 @@ class _TasbihState extends State<Tasbih> {
     });
   }
 
-  void startTimer() {
+  void startStopWatch() {
+    sWatch.start();
     Timer(dur, keepRunning);
   }
 
-  var sWatch = Stopwatch();
-
-  void startStopWatch() {
-    sWatch.start();
-    startTimer();
-  }
-
-  bool isOn = false;
-  int counter = 0;
   final theme = [
     AppThemeModel(
         image: "assets/images/image 1.png",
-        colour: [Color(0xFF2D1D3F), Color(0xFF764CA5), Color(0xff111B2B)],
+        oncolour: [
+          Color(0xFF2D1D3F),
+          Color(0xFF764CA5),
+          Color(0xff111B2B),
+        ],
+        offcolour: [
+          Color(0xFFB39DDB),
+          Color(0xFFD1C4E9),
+          Color(0xFFEDE7F6),
+        ],
         buttonIndicatorcolor: Color(0xff764CA5),
-        bottomNavColor: Color(0xff764CA5)),
+        bottomNavColor: Color(0xff764CA5).withOpacity(0.7),
+        thumbColor: Color.fromARGB(255, 122, 100, 162)),
     AppThemeModel(
         image: "assets/images/theme1.png",
-        colour: [
+        oncolour: [
           Color(0xFF3E2723),
           Color(0xFFA1887F),
           Color(0xFF6D4C41),
         ],
+        offcolour: [
+          Color(0xFF8D6E63),
+          Color(0xFFD7CCC8),
+          Color(0xFFBCAAA4),
+        ],
         buttonIndicatorcolor: Color(0xFF000000),
-        bottomNavColor: Color(0xFF6D4C41)),
+        bottomNavColor: Color(0xFF6D4C41),
+        thumbColor: Color.fromARGB(255, 92, 79, 74)),
     AppThemeModel(
         image: "assets/images/theme2.png",
-        colour: [
+        oncolour: [
           Color(0xFF183282),
           Color.fromARGB(255, 51, 28, 101),
           Color(0xFF3E3AA8),
         ],
+        offcolour: [
+          Color(0xFF5C6BC0),
+          Color(0xFF9FA8DA),
+          Color(0xFFC5CAE9),
+        ],
         buttonIndicatorcolor: Color(0xFF183282),
-        bottomNavColor: Color.fromARGB(255, 53, 69, 117))
+        bottomNavColor: Color(0xff183282).withOpacity(0.7),
+        thumbColor: Color(0xFFC5CAE9))
   ];
-  AppThemeModel? selectedTheme;
+  late AppThemeModel selectedTheme;
 
   @override
   void initState() {
@@ -78,27 +94,26 @@ class _TasbihState extends State<Tasbih> {
           titleSpacing: 0,
           backgroundColor: Colors.white,
           shadowColor: Colors.grey.shade100,
-          leading: BackButton(),
+          leading: BackButton(
+            color: Colors.black,
+            style: ButtonStyle(),
+          ),
           title: Text(
             "Tasbih Counter",
             style: TextStyle(fontFamily: "playfair", fontWeight: FontWeight.w500),
           ),
           actions: [
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 15),
               child: Container(
-                width: 40,
-                height: 40,
-                decoration: BoxDecoration(color: Colors.grey.shade400, shape: BoxShape.circle),
-                child: Icon(
-                  Icons.notifications_outlined,
-                  size: 30,
-                ),
-              ),
+                  width: 35,
+                  height: 35,
+                  decoration: BoxDecoration(color: Colors.grey.shade300, shape: BoxShape.circle),
+                  child: Image.asset("assets/images/bell.png")),
             )
           ]),
       bottomNavigationBar:
-          Padding(padding: const EdgeInsets.all(8.0), child: CustomBottomNavBar(color: selectedTheme!.bottomNavColor)),
+          Padding(padding: const EdgeInsets.all(8.0), child: CustomBottomNavBar(color: selectedTheme.bottomNavColor)),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Column(
@@ -110,7 +125,7 @@ class _TasbihState extends State<Tasbih> {
                 height: height * 0.5,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
-                    image: DecorationImage(image: AssetImage(selectedTheme?.image ?? ""), fit: BoxFit.fill)),
+                    image: DecorationImage(image: AssetImage(selectedTheme.image), fit: BoxFit.fill)),
                 child: Column(
                   spacing: 25,
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -132,7 +147,7 @@ class _TasbihState extends State<Tasbih> {
                               fontFamily: "DmSans",
                               fontSize: 18,
                               fontWeight: FontWeight.w500,
-                              color: selectedTheme!.buttonIndicatorcolor),
+                              color: selectedTheme.buttonIndicatorcolor),
                         ),
                       ),
                     ),
@@ -156,7 +171,8 @@ class _TasbihState extends State<Tasbih> {
                       },
                       child: CustomSwitch(
                         isOn: isOn,
-                        gcolour: selectedTheme!.colour,
+                        gcolour: (isOn == true) ? selectedTheme.oncolour : selectedTheme.offcolour,
+                        switchThumbColor: (isOn == true) ? Colors.grey : selectedTheme.thumbColor,
                       ),
                     ),
                     SizedBox(
@@ -184,7 +200,7 @@ class _TasbihState extends State<Tasbih> {
                               child: Icon(
                                 Icons.refresh,
                                 size: 35,
-                                color: selectedTheme!.buttonIndicatorcolor,
+                                color: selectedTheme.buttonIndicatorcolor,
                               ),
                             ),
                           ),
@@ -201,7 +217,7 @@ class _TasbihState extends State<Tasbih> {
                             "stop",
                             style: TextStyle(
                               fontSize: 20,
-                              color: selectedTheme!.buttonIndicatorcolor,
+                              color: selectedTheme.buttonIndicatorcolor,
                             ),
                           )),
                         ),
@@ -216,7 +232,7 @@ class _TasbihState extends State<Tasbih> {
                               child: Icon(
                             Icons.pause,
                             size: 30,
-                            color: selectedTheme!.buttonIndicatorcolor,
+                            color: selectedTheme.buttonIndicatorcolor,
                           )),
                         )
                       ],
@@ -276,14 +292,15 @@ class ActionButton extends StatelessWidget {
 }
 
 class CustomSwitch extends StatelessWidget {
-  const CustomSwitch({super.key, required this.isOn, required this.gcolour});
+  const CustomSwitch({super.key, required this.isOn, required this.gcolour, required this.switchThumbColor});
   final bool isOn;
   final List<Color> gcolour;
+  final Color switchThumbColor;
   @override
   Widget build(BuildContext context) {
     return Stack(alignment: Alignment.center, children: [
       AnimatedContainer(
-        duration: const Duration(milliseconds: 300),
+        duration: const Duration(milliseconds: 400),
         width: 120,
         height: 50,
         padding: const EdgeInsets.all(5),
@@ -306,7 +323,7 @@ class CustomSwitch extends StatelessWidget {
             width: 40,
             height: 40,
             decoration: BoxDecoration(
-              color: Color(0xffcec5d8c2),
+              color: switchThumbColor,
               shape: BoxShape.circle,
             ),
           ),
