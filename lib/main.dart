@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tasbih/photo_gallery.dart';
 import 'package:tasbih/tasbih.dart';
 
 void main() {
@@ -11,6 +12,6 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(title: 'Flutter Demo', home: Tasbih(), debugShowCheckedModeBanner: false);
+    return MaterialApp(title: 'Flutter Demo', home: PhotoGallery(), debugShowCheckedModeBanner: false);
   }
 }
