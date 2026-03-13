@@ -1,19 +1,23 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gshop/provider/provider.dart' show updateProvider;
 
-class Shop extends StatefulWidget {
+class Shop extends ConsumerStatefulWidget {
   const Shop({super.key});
 
   @override
-  State<Shop> createState() => _ShopState();
+  ConsumerState<Shop> createState() => _ShopState();
 }
 
-class _ShopState extends State<Shop> {
+class _ShopState extends ConsumerState<Shop> {
   int update = 5;
   var val = 0.7;
   @override
   Widget build(BuildContext context) {
+    final state = ref.watch(updateProvider);
+    final notifier = ref.read(updateProvider.notifier);
     final width = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
@@ -68,11 +72,9 @@ class _ShopState extends State<Shop> {
                             child: Slider(
                               activeColor: Color(0xFFEF2A39),
                               padding: EdgeInsets.all(0),
-                              value: val,
+                              value: state.val ?? 0,
                               onChanged: (value) {
-                                setState(() {
-                                  val = value;
-                                });
+                                notifier.sliderAction(value);
                               },
                             ),
                           ),
@@ -115,31 +117,30 @@ class _ShopState extends State<Shop> {
                               ElevatedButton(
                                 onPressed: () {
                                   log(width.toString());
-                                  if (update > 0) {
-                                    setState(() {
-                                      update = update - 1;
-                                    });
-                                  }
+                                  ref.read(updateProvider.notifier).action("Janina");
                                 },
                                 style: ElevatedButton.styleFrom(
-                                  fixedSize: Size(width * 0.03, width * 0.03),
+                                  padding: EdgeInsets.all(0),
+                                  //  fixedSize: Size(width * 0.03, width * 0.03),
                                   backgroundColor: Color(0xFFEF2A39),
                                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                                 ),
                                 child: Icon(Icons.remove, color: Colors.white, weight: 10),
                               ),
-                              Text(update.toString(), style: TextStyle(fontWeight: FontWeight.w500, fontSize: 18)),
+                              Text(
+                                ref.watch(updateProvider).update.toString(),
+                                style: TextStyle(fontWeight: FontWeight.w500, fontSize: 18),
+                              ),
                               ElevatedButton(
                                 onPressed: () {
-                                  setState(() {
-                                    update = update + 1;
-                                  });
+                                  ref.read(updateProvider.notifier).action("Increase");
                                 },
                                 style: ElevatedButton.styleFrom(
+                                  // fixedSize: Size(width * 0.03, width * 0.03),
                                   backgroundColor: Color(0xFFEF2A39),
                                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                                 ),
-                                child: Icon(Icons.add, color: Colors.white, weight: 10),
+                                child: Center(child: Icon(Icons.add, color: Colors.white, weight: 10)),
                               ),
                             ],
                           ),
@@ -154,12 +155,15 @@ class _ShopState extends State<Shop> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Container(
+                    width: width * 0.19,
                     decoration: BoxDecoration(borderRadius: BorderRadius.circular(20), color: Color(0xFFEF2A39)),
                     child: Padding(
                       padding: EdgeInsetsGeometry.symmetric(horizontal: 24, vertical: 20),
-                      child: Text(
-                        "\$8.24",
-                        style: TextStyle(fontWeight: FontWeight.w600, fontSize: 22, color: Colors.white),
+                      child: Center(
+                        child: Text(
+                          "\$8.24",
+                          style: TextStyle(fontWeight: FontWeight.w600, fontSize: 22, color: Colors.white),
+                        ),
                       ),
                     ),
                   ),
@@ -190,12 +194,15 @@ class _ShopState extends State<Shop> {
                       );
                     },
                     child: Container(
+                      width: width * 0.7,
                       decoration: BoxDecoration(borderRadius: BorderRadius.circular(20), color: Color(0xFF3C2F2F)),
                       child: Padding(
                         padding: EdgeInsetsGeometry.symmetric(horizontal: width * 0.13, vertical: 23),
-                        child: Text(
-                          "ORDER NOW",
-                          style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18, color: Colors.white),
+                        child: Center(
+                          child: Text(
+                            "ORDER NOW",
+                            style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18, color: Colors.white),
+                          ),
                         ),
                       ),
                     ),
