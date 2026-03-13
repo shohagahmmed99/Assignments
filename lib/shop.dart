@@ -27,7 +27,7 @@ class _ShopState extends ConsumerState<Shop> {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsetsGeometry.all(19),
+            padding: EdgeInsets.all(19),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -41,7 +41,7 @@ class _ShopState extends ConsumerState<Shop> {
                 ),
                 Padding(
                   padding: const EdgeInsets.all(11.0),
-                  child: Center(child: Image.asset("assets/images/burgerr.png", height: 370, width: 370)),
+                  child: Image.asset("assets/images/burgerr.png", height: 370, width: 370),
                 ),
                 SizedBox(height: 35),
                 Text("Hamburger Veggie Burger", style: TextStyle(fontWeight: FontWeight.w600, fontSize: 25)),
@@ -69,37 +69,31 @@ class _ShopState extends ConsumerState<Shop> {
                         children: [
                           Text("Spicy", style: TextStyle(fontWeight: FontWeight.w500, fontSize: 14)),
                           SizedBox(height: 11),
-                          SizedBox(
-                            width: width * 0.4,
-                            child: SliderTheme(
-                              data: SliderTheme.of(context).copyWith(thumbShape: RRectThumbShape()),
-                              child: Slider(
-                                activeColor: Color(0xFFEF2A39),
-                                padding: EdgeInsets.all(0),
-                                value: state.val ?? 0,
-                                onChanged: (value) {
-                                  notifier.sliderAction(value);
-                                },
-                              ),
+                          SliderTheme(
+                            data: SliderTheme.of(context).copyWith(thumbShape: RRectThumbShape()),
+                            child: Slider(
+                              activeColor: Color(0xFFEF2A39),
+                              padding: EdgeInsets.all(0),
+                              value: state.val ?? 0,
+                              onChanged: (value) {
+                                notifier.sliderAction(value);
+                              },
                             ),
                           ),
                           SizedBox(height: 7),
-                          SizedBox(
-                            width: width * 0.4,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  "Mild",
-                                  style: TextStyle(color: Color(0xFF1CC019), fontSize: 12, fontWeight: FontWeight.w500),
-                                ),
-                                SizedBox(width: 30),
-                                Text(
-                                  "Hot",
-                                  style: TextStyle(color: Color(0xFFEF2A39), fontSize: 12, fontWeight: FontWeight.w500),
-                                ),
-                              ],
-                            ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "Mild",
+                                style: TextStyle(color: Color(0xFF1CC019), fontSize: 12, fontWeight: FontWeight.w500),
+                              ),
+
+                              Text(
+                                "Hot",
+                                style: TextStyle(color: Color(0xFFEF2A39), fontSize: 12, fontWeight: FontWeight.w500),
+                              ),
+                            ],
                           ),
                         ],
                       ),
@@ -149,7 +143,7 @@ class _ShopState extends ConsumerState<Shop> {
                                   ),
                                 ),
                                 Text(
-                                  ref.watch(updateProvider).update.toString(),
+                                  state.update.toString(),
                                   style: TextStyle(fontWeight: FontWeight.w500, fontSize: 18),
                                 ),
                                 /*    ElevatedButton(
@@ -196,7 +190,7 @@ class _ShopState extends ConsumerState<Shop> {
                       width: width * 0.3,
                       decoration: BoxDecoration(borderRadius: BorderRadius.circular(20), color: Color(0xFFEF2A39)),
                       child: Padding(
-                        padding: EdgeInsetsGeometry.symmetric(horizontal: 24, vertical: 20),
+                        padding: EdgeInsets.symmetric(horizontal: 24, vertical: 20),
                         child: Center(
                           child: Text(
                             "\$8.24",
@@ -219,7 +213,7 @@ class _ShopState extends ConsumerState<Shop> {
                         width: width * 0.55,
                         decoration: BoxDecoration(borderRadius: BorderRadius.circular(20), color: Color(0xFF3C2F2F)),
                         child: Padding(
-                          padding: EdgeInsetsGeometry.symmetric(horizontal: width * 0.13, vertical: 23),
+                          padding: EdgeInsets.symmetric(horizontal: width * 0.13, vertical: 23),
                           child: Center(
                             child: Text(
                               "ORDER NOW",
